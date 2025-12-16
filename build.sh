@@ -32,31 +32,41 @@ fi
 PYTHON=""
 if command -v python3 >/dev/null 2>&1; then
     PYTHON=$(command -v python3)
+elif command -v python >/dev/null 2>&1; then
+    PYTHON=$(command -v python)
 elif [ -f "/root/.pyenv/versions/3.9.16/bin/python3" ]; then
     PYTHON="/root/.pyenv/versions/3.9.16/bin/python3"
 elif [ -f "/usr/bin/python3" ]; then
     PYTHON="/usr/bin/python3"
 elif [ -f "/usr/local/bin/python3" ]; then
     PYTHON="/usr/local/bin/python3"
+elif [ -f "/usr/bin/python" ]; then
+    PYTHON="/usr/bin/python"
 else
-    # Try to find python3 in common locations
+    # Try to find python3 or python in common locations
     PYTHON=$(find /usr -name python3 2>/dev/null | head -1)
+    if [ -z "$PYTHON" ]; then
+        PYTHON=$(find /usr -name python 2>/dev/null | head -1)
+    fi
 fi
 
 # Verify Python was found
 if [ -z "$PYTHON" ] || [ ! -f "$PYTHON" ]; then
-    echo "Error: Python3 not found!"
+    echo "Error: Python not found!"
+    echo "Searching for Python..."
     which python3 || echo "python3 not in PATH"
-    find /usr -name python3 2>/dev/null | head -5 || echo "python3 not found in /usr"
+    which python || echo "python not in PATH"
+    find /usr -name python* 2>/dev/null | head -5 || echo "python not found in /usr"
+    echo "PATH: $PATH"
     exit 1
 fi
 
 echo "Using Python: $PYTHON"
-$PYTHON --version
+$PYTHON --version || $PYTHON -V
 
 # Upgrade pip
-$PYTHON -m pip install --upgrade pip setuptools wheel
+$PYTHON -m pip install --upgrade pip setuptools wheel || pip install --upgrade pip setuptools wheel
 
 # Install dependencies
-$PYTHON -m pip install -r requirements.txt
+$PYTHON -m pip install -r requirements.txt || pip install -r requirements.txt
 
