@@ -1,33 +1,35 @@
 version: 1
-applications:
-  - appRoot: .
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - echo "Installing dependencies..."
-            - pip install --upgrade pip
-            - pip install -r requirements.txt
-        build:
-          commands:
-            - echo "Building application..."
-            - python -m pip install --upgrade pip
-            - pip install -r requirements.txt
-      artifacts:
-        baseDirectory: .
-        files:
-          - '**/*'
-    backend:
-      phases:
-        build:
-          commands:
-            - echo "Backend build phase"
-            - python --version
-            - pip install -r requirements.txt
-      artifacts:
-        baseDirectory: .
-        files:
-          - '**/*'
+backend:
+  phases:
+    build:
+      commands:
+        - echo "Building backend..."
+        - pip install --upgrade pip
+        - pip install -r requirements.txt
+  functions:
+    api:
+      handler: lambda_handler.handler
+      runtime: python3.10
+      environment:
+        SECRET_KEY: ${env.SECRET_KEY}
+        ENCRYPTION_KEY: ${env.ENCRYPTION_KEY}
+        OPENAI_API_KEY: ${env.OPENAI_API_KEY}
+        DATABASE_URL: ${env.DATABASE_URL}
+        DEBUG: ${env.DEBUG}
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Installing dependencies..."
+        - pip install --upgrade pip
+        - pip install -r requirements.txt
+    build:
+      commands:
+        - echo "Build complete - using backend function"
+  artifacts:
+    baseDirectory: .
+    files:
+      - '**/*'
     test:
       phases:
         preTest:
