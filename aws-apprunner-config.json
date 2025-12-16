@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "serviceName": "hipaa-ai-investigation",
+  "source": {
+    "repositoryUrl": "https://github.com/mn2tech/hipaa-ai-investigation-system",
+    "sourceCodeVersion": {
+      "type": "BRANCH",
+      "value": "main"
+    },
+    "autoDeploymentsEnabled": true
+  },
+  "buildConfiguration": {
+    "buildCommand": "",
+    "runtime": "DOCKER",
+    "runtimeVersion": "latest"
+  },
+  "instanceConfiguration": {
+    "cpu": "1 vCPU",
+    "memory": "2 GB",
+    "instanceRoleArn": ""
+  },
+  "autoScalingConfiguration": {
+    "minSize": 1,
+    "maxSize": 5
+  },
+  "healthCheckConfiguration": {
+    "protocol": "HTTP",
+    "path": "/health",
+    "interval": 10,
+    "timeout": 5,
+    "healthyThreshold": 1,
+    "unhealthyThreshold": 5
+  },
+  "environmentVariables": [
+    {
+      "name": "DEBUG",
+      "value": "False"
+    }
+  ]
+}
+

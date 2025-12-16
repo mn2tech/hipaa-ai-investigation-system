@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "applications": [
+    {
+      "appRoot": ".",
+      "frontend": {
+        "phases": {
+          "preBuild": {
+            "commands": [
+              "pip install --upgrade pip",
+              "pip install -r requirements.txt"
+            ]
+          },
+          "build": {
+            "commands": [
+              "echo 'Build complete'"
+            ]
+          }
+        },
+        "artifacts": {
+          "baseDirectory": ".",
+          "files": [
+            "**/*"
+          ]
+        }
+      },
+      "backend": {
+        "phases": {
+          "build": {
+            "commands": [
+              "pip install -r requirements.txt"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
+

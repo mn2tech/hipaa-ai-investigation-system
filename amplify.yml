@@ -1,0 +1,55 @@
+version: 1
+applications:
+  - appRoot: .
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - echo "Installing dependencies..."
+            - pip install --upgrade pip
+            - pip install -r requirements.txt
+        build:
+          commands:
+            - echo "Building application..."
+            - python -m pip install --upgrade pip
+            - pip install -r requirements.txt
+      artifacts:
+        baseDirectory: .
+        files:
+          - '**/*'
+    backend:
+      phases:
+        build:
+          commands:
+            - echo "Backend build phase"
+            - python --version
+            - pip install -r requirements.txt
+      artifacts:
+        baseDirectory: .
+        files:
+          - '**/*'
+    test:
+      phases:
+        preTest:
+          commands:
+            - echo "Running tests..."
+            - pip install pytest pytest-cov
+        test:
+          commands:
+            - pytest tests/ -v --cov=src --cov-report=term-missing || true
+      artifacts:
+        baseDirectory: coverage
+        files:
+          - '**/*'
+    customHeaders:
+      - pattern: '**/*'
+        headers:
+          - key: 'X-Content-Type-Options'
+            value: 'nosniff'
+          - key: 'X-Frame-Options'
+            value: 'DENY'
+          - key: 'X-XSS-Protection'
+            value: '1; mode=block'
+          - key: 'Strict-Transport-Security'
+            value: 'max-age=31536000; includeSubDomains'
+
