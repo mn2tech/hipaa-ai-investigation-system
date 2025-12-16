@@ -34,9 +34,10 @@ applications:
           commands:
             - echo "Running tests..."
             - pip install pytest pytest-cov
+            - mkdir -p coverage/html || true
         test:
           commands:
-            - pytest tests/ -v --cov=src --cov-report=term-missing || true
+            - pytest tests/ -v --cov=src --cov-report=term-missing --cov-report=html:coverage/html || true
       artifacts:
         baseDirectory: coverage
         files:
