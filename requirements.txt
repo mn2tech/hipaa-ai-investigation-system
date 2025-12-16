@@ -1,0 +1,44 @@
+# Core Dependencies
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# Security & Encryption
+cryptography>=41.0.0
+pyjwt>=2.8.0
+passlib[bcrypt]>=1.7.4
+
+# AI/ML Libraries
+openai>=1.0.0
+langchain>=0.1.0
+langchain-openai>=0.0.5
+tiktoken>=0.5.0
+
+# Database
+sqlalchemy>=2.0.0
+alembic>=1.12.0
+
+# API Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+
+# Document Processing
+pypdf>=3.17.0
+python-docx>=1.1.0
+openpyxl>=3.1.0
+
+# Logging & Monitoring
+structlog>=23.2.0
+python-json-logger>=2.0.7
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+
+# Code Quality
+black>=23.11.0
+flake8>=6.1.0
+mypy>=1.7.0
+
